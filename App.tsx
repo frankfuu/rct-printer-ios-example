@@ -6,6 +6,9 @@
  */
 
 import React from 'react';
+
+import {NativeModules, Button} from 'react-native';
+
 import type {PropsWithChildren} from 'react';
 import {
   SafeAreaView,
@@ -58,6 +61,8 @@ function Section({children, title}: SectionProps): React.JSX.Element {
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
 
+  const {PrintModule} = NativeModules;
+
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
@@ -76,7 +81,25 @@ function App(): React.JSX.Element {
           style={{
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}>
-          <Section title="Step One1">
+          <Button
+            title="Print a ticket"
+            onPress={() => {
+              PrintModule.print(
+                '192.168.1.104',
+                9100,
+                '陳大文',
+                '12345678908765432',
+              );
+            }}
+          />
+          <Button
+            title="Print to log"
+            onPress={() => {
+              console.log(`PrintModule.printToLog called....`);
+              PrintModule.printToLog('hello frank');
+            }}
+          />
+          <Section title="Stezpzzssz One1ss">
             Edit <Text style={styles.highlight}>App.tsx</Text> to change this
             screen and then come back to see your edits.
           </Section>
